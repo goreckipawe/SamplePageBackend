@@ -7,19 +7,19 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
 //starałem sie zrobić projekt jak najszybciej ponieważ nie miałem zbyt wiele czasu dlatego wszystkie metody do obróbki danych znajdują się w tym pliku 
-//ztego powodu również a także z uwagi na specyfikę projektu nie zastosowałem w nim zabespieczeń takich jak rejestracja, polityka korsów itd
+//ztego powodu również, a także z uwagi na specyfikę projektu nie zastosowałem w nim zabespieczeń takich jak rejestracja, polityka kursów itd
 
-//nie zauważyłem by w panistwa zadaniach było coś o bazie danych do tego projektu dlatego operuję na plikach
+//nie zauważyłem by w państwa zadaniach było coś o bazie danych do tego projektu dlatego operuję na plikach
 //z tego powodu też nie robiłem modeli do danych ani metod do generowania danych testowych
 //pragne również dodać ponieważ to pytanie często pada 
 //wole stosować zwykłe zapytania do bazy danych niż metody laravela do tego przeznaczone z prostego powodu 
 //uważam że jeśli ktoś zna język sql i umie go używać (a ja potrafię :>) to jest to poprostu dużo szybsze i czytelniejsze przynajmniej dla mnie 
-//natomiast jeśli zapytania dotyczą wrażliwych danych lub zależy nam bardzo na bezpieczenistwię stosuję poprostu procedury sql do których przesyłam dane
-//co daje całkowita kontrole nad zapytaniami
+//natomiast jeśli zapytania dotyczą wrażliwych danych lub zależy nam bardzo na bezpieczeństwie stosuję poprostu procedury sql do których przesyłam dane
+//co daje całkowitą kontrole nad zapytaniami
 
 class SamplePage extends Controller
 {
-    public function agenda(){ //metoda od pobraniea danych z podanego przez panistwa pliku gdzie jednocześnie sprawdzam poprawność danych
+    public function agenda(){ //metoda od pobrania danych z podanego przez państwa pliku gdzie jednocześnie sprawdzam poprawność danych
         try{
             $content = json_decode(file_get_contents(storage_path('app/agenda.json')), true); //odczytanie danych z pliku
 
@@ -31,7 +31,7 @@ class SamplePage extends Controller
                 foreach($paths as $key_p => $path){
                     $length = count($path["startTimes"]);
                     foreach($path["startTimes"] as $key => $start_time){
-                        $time = Carbon::parse($start_time);//wyznaczam czas konicowy dla każdej godziny przez dodanie do niej czasu trawania 
+                        $time = Carbon::parse($start_time);//wyznaczam czas końcowy dla każdej godziny przez dodanie do niej czasu trawania 
                         $endTime = $time->addMinutes($path["durations"][$key]);
                         $path_number = filter_var($path["path"], FILTER_SANITIZE_NUMBER_INT);
                         $content["paths"][$key_p]["endTimes"][$key] = $endTime->format('H:i');
@@ -71,7 +71,7 @@ class SamplePage extends Controller
                 }
             }
 
-            //dane zwracam w postać tablicy gdzie wartość data zawsze przechowuje dane 
+            //dane zwracam w postaci tablicy gdzie wartość data zawsze przechowuje dane 
             //małe wyjaśnienie komunikat o błędzie może mieć oczywiście dwie postacie tą którą podajemy urzytkownikowi i tą która widzimy my
             //dlatego w zwracanej tablicy podaję dwie wartości o błędach error w którym można przesłać nazwę tłómaczenia które wyświetli się urzytkownikowi 
             //oraz error_message gdzie znajduje się błąd wynikający z kodu
@@ -89,7 +89,7 @@ class SamplePage extends Controller
         }
     }
 
-    public function agendaUserAdd(Request $request){//metoda do zapisu danych wybranych przez urzytkownika
+    public function agendaUserAdd(Request $request){//metoda do zapisu danych wybranych przez użytkownika
         try{
             $tab = $request->all(); //działam na tablicach bo jest to poprostu dla mnie bardziej wygodne
 
@@ -149,7 +149,7 @@ class SamplePage extends Controller
         }
     }
 
-    public function agendaUserGet(){//metoda do pobrania danych zapisanych przez urzytkownika
+    public function agendaUserGet(){//metoda do pobrania danych zapisanych przez użytkownika
         try{
             $content = json_decode(file_get_contents(storage_path('app/agenda.json')), true);
             $content_user = json_decode(file_get_contents(storage_path('app/agenda_plan.json')), true);
